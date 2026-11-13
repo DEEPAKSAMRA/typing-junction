@@ -9,6 +9,14 @@
 <meta property="og:description" content="4 पेपर, 10-10 मिनट, असली MS Word/Excel में efficiency – बिल्कुल RSSB परीक्षा जैसा। Free trial।">
 <meta name="theme-color" content="#1E3A5F">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232F6FB3'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='28' fill='white' text-anchor='middle'%3ETJ%3C/text%3E%3C/svg%3E">
+<!-- Google tag (Google Ads AW-363706891: conversion measurement) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-363706891"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-363706891');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -617,7 +625,7 @@ footer ul{list-style:none;display:grid;gap:8px}
     </div>
     <div class="disc hi" id="privacy">
       <b>अस्वीकरण:</b> Typing Junction एक स्वतंत्र practice software है। इसका राजस्थान कर्मचारी चयन बोर्ड (RSSB) या किसी सरकारी संस्था से कोई संबंध नहीं है। परीक्षा की तिथि, नियम व पात्रता के लिए केवल RSSB की आधिकारिक सूचना मान्य है। Software में दिखाए अंक practice के लिए अनुमान हैं; किसी परिणाम या चयन की गारंटी नहीं दी जाती।<br>
-      <b>Privacy:</b> यह website कोई form, login या व्यक्तिगत जानकारी नहीं लेती। Software offline चलता है; licence के लिए केवल PC का Machine ID उपयोग होता है, जो आप स्वयं WhatsApp पर भेजते हैं। आपका typing/practice data आपके PC पर ही रहता है।<br>
+      <b>Privacy:</b> यह website कोई form, login या व्यक्तिगत जानकारी नहीं लेती। विज्ञापन का असर मापने के लिए Google Ads tag (cookies) उपयोग होता है, जो सिर्फ़ यह गिनता है कि ad देखकर आए लोगों ने download या WhatsApp बटन दबाया या नहीं। Software offline चलता है; licence के लिए केवल PC का Machine ID उपयोग होता है, जो आप स्वयं WhatsApp पर भेजते हैं। आपका typing/practice data आपके PC पर ही रहता है।<br>
       © <span id="yr">2026</span> Typing Junction. Microsoft Word व Excel, Microsoft Corporation के trademark हैं।
     </div>
   </div>
@@ -649,20 +657,28 @@ footer ul{list-style:none;display:grid;gap:8px}
   var isWinPC = /Windows NT/i.test(ua) && !/Mobile|Phone|Android/i.test(ua);
   document.documentElement.classList.add(isWinPC ? "is-pc" : "not-pc");
 
+  // Google Ads conversions (labels from account 805-814-0435)
+  var CONV_TRIAL = "AW-363706891/kvaMCNnCwLcdEIv0tq0B", CONV_WA = "AW-363706891/-ZkFCNzCwLcdEIv0tq0B";
+  var conv = function(sendTo){ try { if (window.gtag) gtag("event", "conversion", {"send_to": sendTo}); } catch (e) {} };
+  document.addEventListener("click", function(ev){
+    var a = ev.target.closest && ev.target.closest("a");
+    if (!a || !a.href) return;
+    if (a.href.indexOf("https://wa.me/") === 0) conv(CONV_WA);
+    else if (a.href === DOWNLOAD) conv(CONV_TRIAL);
+  }, true);
+
   document.querySelectorAll(".wa").forEach(function(a){ a.href = waMsg("नमस्ते, मुझे Typing Junction (LDC typing software) के बारे में जानकारी चाहिए।"); });
   document.querySelectorAll(".wa-num").forEach(function(s){ s.textContent = "+91 70140 67853"; });
   var WA_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>';
   document.querySelectorAll(".dl").forEach(function(a){
     if (isWinPC) {
       a.href = DOWNLOAD;
-      a.addEventListener("click", function(){ if (window.gtag) gtag("event","download_trial"); });
     } else {
       a.href = waMsg("नमस्ते, मुझे Typing Junction का PC download link भेजें, मैं इसे computer पर install करूँगा: " + PAGE);
       a.target = "_blank"; a.rel = "noopener";
       a.classList.remove("btn-primary"); a.classList.add("btn-wa");
       var inHeader = !!a.closest("header"), inBar = !!a.closest(".mbar");
       a.innerHTML = WA_ICON + '<span class="t">' + (inHeader ? "PC Link" : inBar ? "PC link WhatsApp पर पाएँ" : "PC download link WhatsApp पर पाएँ") + "</span>";
-      a.addEventListener("click", function(){ if (window.gtag) gtag("event","pc_link_whatsapp"); });
     }
   });
 
