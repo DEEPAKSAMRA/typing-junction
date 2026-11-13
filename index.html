@@ -56,6 +56,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(19,43,71,.96);backdrop-f
 .micro span{display:flex;align-items:center;gap:6px}
 .micro svg{width:16px;height:16px;color:#7EE2A8}
 .official{margin-top:14px;font-size:13.5px;color:#FFE3A6;background:rgba(244,162,27,.1);border:1px solid rgba(244,162,27,.3);border-radius:10px;padding:8px 12px;display:inline-block}
+.pc-note{display:none;margin-top:18px;font-size:14.5px;background:rgba(31,168,85,.14);border:1px solid rgba(126,226,168,.45);color:#D9F7E6;border-radius:12px;padding:10px 14px}
+.not-pc .pc-note{display:block}
+.not-pc .mbar .btn-wa:not(.dl){display:none}
 .lvl{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
 .lvl span{font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px;color:#334}
 .countdown{display:flex;gap:10px;margin-top:30px;align-items:center;flex-wrap:wrap}
@@ -288,6 +291,7 @@ footer ul{list-style:none;display:grid;gap:8px}
       <span class="tag">● RSSB LDC / कनिष्ठ सहायक – टाइपिंग व दक्षता परीक्षा 2026</span>
       <h1>परीक्षा से पहले <em>असली परीक्षा</em> जैसी practice — घर बैठे</h1>
       <p class="lead">हिन्दी (DevLys 010) व English टाइपिंग, MS Word व Excel दक्षता परीक्षा और पूरा Full Mock — RSSB के निर्देशों के अनुसार 10-10 मिनट के 4 पेपर, अपने आप जाँच और अंक।</p>
+      <p class="pc-note">📱 आप mobile पर हैं — Typing Junction <b>Windows PC/laptop</b> का software है। नीचे के बटन से PC download link WhatsApp पर पाएँ और उसे computer पर खोलें।</p>
       <div class="cta-row">
         <a class="btn btn-primary dl" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>Free Trial Download करें</a>
         <a class="btn btn-ghost wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.8 11.9 11.9 0 004.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 001.8-1.3 2.3 2.3 0 00.2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>WhatsApp पर पूछें</a>
@@ -624,10 +628,41 @@ footer ul{list-style:none;display:grid;gap:8px}
 (function(){
   var WA = "917014067853";
   var DOWNLOAD = "https://github.com/DEEPAKSAMRA/typing-junction/releases/latest/download/TypingJunction_Setup.exe";
-  var waMsg = function(t){ return "https://wa.me/" + WA + "?text=" + encodeURIComponent(t); };
+  var PAGE = "https://deepaksamra.github.io/typing-junction/";
+
+  // Source code for WhatsApp messages: [YT-PC] / [YT-M] / [other-source], remembered for this visit.
+  var SRC = "";
+  try {
+    var q = new URLSearchParams(location.search), camp = q.get("utm_campaign") || "", srcp = q.get("utm_source") || "";
+    if (camp === "tj_pc") SRC = "YT-PC";
+    else if (camp === "tj_mobile") SRC = "YT-M";
+    else if (srcp) SRC = srcp.replace(/[^\w-]/g, "").slice(0, 12).toUpperCase();
+    if (SRC) sessionStorage.setItem("tj_src", SRC); else SRC = sessionStorage.getItem("tj_src") || "";
+  } catch (e) {}
+  var tagged = function(t){ return SRC ? t + " [" + SRC + "]" : t; };
+  var waMsg = function(t){ return "https://wa.me/" + WA + "?text=" + encodeURIComponent(tagged(t)); };
+
+  // Windows PC can download directly; phones, tablets, Mac etc. get the PC link on WhatsApp instead.
+  var ua = navigator.userAgent || "";
+  var isWinPC = /Windows NT/i.test(ua) && !/Mobile|Phone|Android/i.test(ua);
+  document.documentElement.classList.add(isWinPC ? "is-pc" : "not-pc");
+
   document.querySelectorAll(".wa").forEach(function(a){ a.href = waMsg("नमस्ते, मुझे Typing Junction (LDC typing software) के बारे में जानकारी चाहिए।"); });
   document.querySelectorAll(".wa-num").forEach(function(s){ s.textContent = "+91 70140 67853"; });
-  document.querySelectorAll(".dl").forEach(function(a){ a.href = DOWNLOAD; a.addEventListener("click", function(){ if (window.gtag) gtag("event","download_trial"); }); });
+  var WA_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>';
+  document.querySelectorAll(".dl").forEach(function(a){
+    if (isWinPC) {
+      a.href = DOWNLOAD;
+      a.addEventListener("click", function(){ if (window.gtag) gtag("event","download_trial"); });
+    } else {
+      a.href = waMsg("नमस्ते, मुझे Typing Junction का PC download link भेजें, मैं इसे computer पर install करूँगा: " + PAGE);
+      a.target = "_blank"; a.rel = "noopener";
+      a.classList.remove("btn-primary"); a.classList.add("btn-wa");
+      var inHeader = !!a.closest("header"), inBar = !!a.closest(".mbar");
+      a.innerHTML = WA_ICON + '<span class="t">' + (inHeader ? "PC Link" : inBar ? "PC link WhatsApp पर पाएँ" : "PC download link WhatsApp पर पाएँ") + "</span>";
+      a.addEventListener("click", function(){ if (window.gtag) gtag("event","pc_link_whatsapp"); });
+    }
+  });
 
   var term = "year";
   function setTerm(t){
